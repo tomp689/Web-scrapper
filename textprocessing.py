@@ -68,7 +68,7 @@ lemmatization(articles)
 # Tokenization
 def tokenization(lowered):
 
-	tokenized = str.split(lowered)
+	tokenized = lowered.split()
 	# tokenized = stemmed.split() 
 	# OR tokenized = nltk.word_tokenize(lowered) 
 
