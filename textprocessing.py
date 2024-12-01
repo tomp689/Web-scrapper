@@ -1,6 +1,6 @@
 import nltk
 import string
-import nltk.tokenize
+from nltk.tokenize import RegexpTokenizer
 import nltk.corpus
 import json
 
@@ -12,16 +12,17 @@ with open("data.json") as data:
 # Turning letters to lower case
 def lowercase(articles):
 
-	lowered = " ".join([i.lower() for i in articles])
+	# Turn all text into lowercase
+	lowered = articles.lower()
 
 	# print(lowered)
-
+	
 	return lowered
 
 lowered = lowercase(articles)
 
 
-# Stemming 
+# Stemming -- not necessary I think
 """
 def stemming(lowered):
 
@@ -41,7 +42,7 @@ def stemming(lowered):
 
 
 
-# Lemmatization
+# Lemmatization -- Also not necessary I think
 
 """
 Κατέβασε το wordnet: nltk.download('wordnet')
@@ -68,9 +69,10 @@ lemmatization(articles)
 # Tokenization
 def tokenization(lowered):
 
-	tokenized = lowered.split()
-	# tokenized = stemmed.split() 
-	# OR tokenized = nltk.word_tokenize(lowered) 
+	# Split the lowered text into tokens and remove all punctuation with NLTK's tokenizer
+	tokenizer = RegexpTokenizer(r'\w+')
+
+	tokenized = tokenizer.tokenize(lowered)
 
 	# print(tokenized)
 
@@ -83,14 +85,14 @@ tokenized = tokenization(lowered)
 # Stop words removal
 def remove_stopwords(tokenized):
 
-	# print(string.punctuation)
-
 	# Για τα προθήματα, κατέβασε nltk.download('stopwords')
 	stopwords = nltk.corpus.stopwords.words('english')
 
 	cleaned_tokens = []
+
+	# If the token is not a stopword, it gets added to the list of cleaned tokens
 	for i in tokenized:
-		if i not in string.punctuation and i not in stopwords:
+		if i not in stopwords:
 			cleaned_tokens.append(i)
 
 	# print(cleaned_tokens)
