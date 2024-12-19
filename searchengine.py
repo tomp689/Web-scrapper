@@ -27,12 +27,6 @@ def tokenization(query):
 tokens = tokenization(query)
 
 
-
-with open("invertedindex.json") as file:
-    documents = file.read()
-
-
-
 def not_processing(tokens):
         not_index = []
         not_res = []
