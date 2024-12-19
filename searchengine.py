@@ -143,7 +143,7 @@ def processing(tokens):
         doc_ids.append(or_processing(tokens))
 
 
-    if "not" in tokens:
+    # if "not" in tokens:
         # How to handle not? 
         # doc_ids.append(not_processing(tokens))
 
