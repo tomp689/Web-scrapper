@@ -14,10 +14,10 @@ print("Give at least one word, press enter when you're done.\n")
 query = input()
 
 def tokenization(query):
-    # Turn the query into lowercase    
+    # Τα γράμματα του ερωτήματος μετατρέπονται σε μικρά     
     lowered_query = query.lower()
 
-    # Split lowered query into tokens and remove all punctuation with NTLK's tokenizer
+    # Χωρίζεται το ερώτημα σε tokens και αφαιρούνται σημεία στίξης και άλλα σύμβολα με τον tokenizer της NLTK
     tokenizer = RegexpTokenizer(r'\w+')
 
     query_tokens = tokenizer.tokenize(lowered_query)
@@ -31,21 +31,21 @@ def not_processing(tokens):
         not_index = []
         not_res = []
 
-        # Find the index of the word "not" so the word after that can be found
+        # Βρίσκεται ο δείκτης του "not" ώστε ο όρος που ακολουθεί να βρεθεί επίσης
         for i in range(len(tokens)):
             if tokens[i] == "not":
                 not_index.append(i)
                 unprocessed.pop(i)
 
-        # Get the word after "not" (s1)
+        # Βρίσκεται ο όρος μετά το "not" (s1) 
         for i in not_index:
             s1 = tokens[i+1]
 
-            # Remove processed words from the list of unprocessed words
+            # Αφαιρούνται επεξεργασμένοι όροι από την λίστα των μη επεξεργασμένων
             index1 = unprocessed.index(s1)
             unprocessed.pop(index1)
 
-            # Find the id of the word and store it to be used later and remove references to it from the total result
+            # Βρίσκεται ο όρος s1 στο ευρετήριο και τα άρθρα που του αντιστοιχούν ώστε να αφαιρεθούν από το τελικό αποτέλεσμα αργότερα
             not_res.append(inverted_index.get(s1))
             print(s1)
             print(inverted_index.get(s1, []))
@@ -59,24 +59,24 @@ def and_processing(tokens):
         res1 = []
         res2 = []
 
-        # Find the index of the word "and" so the word before and after that can be found
+        # Βρίσκεται ο δείκτης του "and" ώστε οι όροι που βρίσκονται πριν και μετά να βρεθούν επίσης
         for i in range(len(tokens)):
             if tokens[i] == "and":
                 and_index.append(i)
                 unprocessed.pop(i)
 
-        # Get the word before "and" (s1) and the word after "and" (s2)
+        # Βρίσκεται ο όρος πριν το "and" (s1) και ο όρος μετά (s2)
         for i in and_index:
             s1 = tokens[i-1]
             s2 = tokens[i+1]
 
-            # Remove processed words from the list of unprocessed words
+            # Αφαιρούνται επεξεργασμένοι όροι από την λίστα των μη επεξεργασμένων
             index1 = unprocessed.index(s1)
             unprocessed.pop(index1)
             index2 = unprocessed.index(s2)
             unprocessed.pop(index2)
 
-            # Find the ids of those words in the inverted index, split them into two lists
+            # Βρίσκονται οι όροι s1, s2 στο ευρετήριο και τα άρθρα που τους αντιστοιχούν μπαίνουν σε δύο λίστες (μία για κάθε όρο)
             res1.append(inverted_index.get(s1, []))
             print(s1)
             print(inverted_index.get(s1, []))
@@ -84,7 +84,7 @@ def and_processing(tokens):
             print(s2)
             print(inverted_index.get(s2, []))
 
-            # Sort the two lists and then do AND on them (τομή), append to doc_ids only values that match
+            # Ταξινομούνται οι δύο λίστες και γίνεται τομή σε αυτές (μπαίνουν μόνο τα άρθρα που ταιριάζουν, δηλαδή έχουν και τους δύο όρους
             res1.sort()
             res2.sort()
 
@@ -100,24 +100,24 @@ def or_processing(tokens):
         res2 = []
         or_res = []
 
-        # Find the index of the word "or" so the word before and after that can be found
+        # Βρίσκεται ο δείκτης του "or" ώστε οι όροι που βρίσκονται πριν και μετά να βρεθούν επίσης
         for i in range(len(tokens)):
             if tokens[i] == "or":
                 or_index.append(i)
                 unprocessed.pop(i)
 
-        # Get the word before "or" (s1) and the word after "or" (s2)
+        # Βρίσκεται ο όρος πριν το "or" (s1) και ο όρος μετά (s2)
         for i in or_index:
             s1 = tokens[i-1]
             s2 = tokens[i+1]
 
-            # Remove processed words from the list of unprocessed words
+            # Αφαιρούνται επεξεργασμένοι όροι από την λίστα των μη επεξεργασμένων
             index1 = unprocessed.index(s1)
             unprocessed.pop(index1)
             index2 = unprocessed.index(s2)
             unprocessed.pop(index2)
 
-            # Find the ids of those words in the inverted index and add them to the list of doc_ids
+            # Βρίσκονται οι όροι s1, s2 στο ευρετήριο και τα άρθρα που τους αντιστοιχούν μπαίνουν στην λίστα αποτελεσμάτων
             or_res.append(inverted_index.get(s1))
             print(s1)
             print(inverted_index.get(s1, []))
@@ -145,9 +145,9 @@ def processing(tokens):
 
     # if "not" in tokens:
         # How to handle not? 
-        # doc_ids.append(not_processing(tokens))
+        # doc_ids.pop(not_processing(tokens))
 
-    # If the unprocessed list is not empty -- there are still some words to be processed
+    # Αν η λίστα δεν είναι άδεια υπάρχουν ακόμη όροι που πρέπει να επεξεργαστούν
     if unprocessed:
         for i in range(len(unprocessed)):
             doc_ids.append(inverted_index.get(unprocessed[i], []))
