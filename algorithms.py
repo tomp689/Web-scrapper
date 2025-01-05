@@ -56,8 +56,8 @@ query = input("Enter your search query: ")
 # επιλογη αλγοριθμου
 print("Select retrieval algorithm:")
 print("1. Boolean Retrieval")
-print("2. BM25")
-print("3.  TF-IDF")
+print("2. TF-IDF")
+print("3.  BM25")
 choice = int(input("Enter choice (1/2/3): "))
 
 if choice == 1:
