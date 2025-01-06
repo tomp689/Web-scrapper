@@ -10,7 +10,6 @@ from nltk.tokenize import RegexpTokenizer
 with open("processed_data.json", "r", encoding="utf-8") as file:
     documents = json.load(file)
 
-# Ελέγξτε τη δομή των δεδομένων
 if isinstance(documents, list):
     doc_ids = list(range(len(documents)))  #κανοντας την λιστα ως λεξικο
     doc_texts = documents
@@ -20,7 +19,7 @@ elif isinstance(documents, dict):
 else:
     raise ValueError("Unsupported JSON structure")
 
-# Δημιουργία ανεστραμμένου ευρετηρίου για Boolean Retrieval
+
 def create_inverted_index(documents):
     inverted_index = defaultdict(list)
     for doc_id, text in zip(doc_ids, documents):
@@ -80,8 +79,8 @@ def bm25_ranking(query, documents):
     ranked_indices = np.argsort(scores)[::-1]
     return [(doc_ids[i], scores[i]) for i in ranked_indices]
 
-# Query χρηστη
-query = input("Enter your search query: ")
+# Queries χρηστη
+queries = input("Enter your search queries (separated by commas): ").split(",")
 
 # επιλογη αλγοριθμου
 print("\nSelect retrieval algorithm:")
@@ -92,26 +91,28 @@ print("4. TF-IDF")
 print("5. BM25")
 choice = int(input("Enter choice (1/2/3/4/5): "))
 
-if choice == 1:
-    results = boolean_retrieval(query, inverted_index, operator="AND")
-elif choice == 2:
-    results = boolean_retrieval(query, inverted_index, operator="OR")
-elif choice == 3:
-    results = boolean_retrieval(query, inverted_index, operator="NOT")
-elif choice == 4:
-    results = tfidf_ranking(query, doc_texts)
-elif choice == 5:
-    results = bm25_ranking(query, doc_texts)
-else:
-    print("Invalid choice")
-    results = []
+# Εκτέλεση για κάθε ερώτημα
+for query in queries:
+    query = query.strip()
+    if choice == 1:
+        results = boolean_retrieval(query, inverted_index, operator="AND")
+    elif choice == 2:
+        results = boolean_retrieval(query, inverted_index, operator="OR")
+    elif choice == 3:
+        results = boolean_retrieval(query, inverted_index, operator="NOT")
+    elif choice == 4:
+        results = tfidf_ranking(query, doc_texts)
+    elif choice == 5:
+        results = bm25_ranking(query, doc_texts)
+    else:
+        print("Invalid choice")
+        results = []
 
-# Αποτελεσματα
-print("\nResults:")
-if choice in [1, 2, 3]:
-    for doc_id in results:
-        print(f"Document ID: {doc_id}")
-else:
-    for rank, (doc_id, score) in enumerate(results, start=1):
-        print(f"{rank}. Document ID: {doc_id}, Score: {score:.4f}")
-
+    # Αποτελεσματα για κάθε ερώτημα
+    print(f"\nResults for query: \"{query}\"")
+    if choice in [1, 2, 3]:
+        for doc_id in results:
+            print(f"Document ID: {doc_id}")
+    else:
+        for rank, (doc_id, score) in enumerate(results, start=1):
+            print(f"{rank}. Document ID: {doc_id}, Score: {score:.4f}")
