@@ -27,8 +27,16 @@ def collect_articles(urls):
     # Επιστροφή πίνακα με τα δεδομένα
     return articles 
 
-urls = ["https://en.wikipedia.org/wiki/Computer_programming"] # θα το τροποποιησουμε για manual search στα επομενα βηματα
-
+urls = ["https://en.wikipedia.org/wiki/Computer_programming", "https://en.wikipedia.org/wiki/Algorithm",
+        "https://en.wikipedia.org/wiki/C%2B%2B", "https://en.wikipedia.org/wiki/BASIC",
+       "https://en.wikipedia.org/wiki/C_(programming_language)", "https://en.wikipedia.org/wiki/Java_(programming_language)",
+       "https://en.wikipedia.org/wiki/JavaScript", "https://en.wikipedia.org/wiki/Kotlin_(programming_language)",
+       "https://en.wikipedia.org/wiki/Lisp_(programming_language)", "https://en.wikipedia.org/wiki/Artificial_intelligence",
+       "https://en.wikipedia.org/wiki/Computer_architecture", "https://en.wikipedia.org/wiki/Computer_programming",
+       "https://en.wikipedia.org/wiki/Information_privacy", "https://en.wikipedia.org/wiki/Node.js",
+       "https://en.wikipedia.org/wiki/Python_(programming_language)", "https://en.wikipedia.org/wiki/Ruby_(programming_language)",
+       "https://en.wikipedia.org/wiki/Unix_shell", "https://en.wikipedia.org/wiki/Swift_(programming_language)",
+       "https://en.wikipedia.org/wiki/SQL", "https://en.wikipedia.org/wiki/MATLAB", "https://en.wikipedia.org/wiki/Object_Pascal"] 
 
 
 articles = collect_articles(urls)
